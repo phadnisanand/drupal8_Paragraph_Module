@@ -1,0 +1,175 @@
+<!-- Intro -->
+<div class="intro center-align first-component">
+  {% if content.field_article_category|render|trim == "Event" %}
+    <div class="type">{{ paragraph.field_article_event_detail.0.entity.field_article_event_title.value }}</div>	
+	<div class="type">{{ content.field_article_event_detail.0.field_article_event_title.value }}</div>
+  {% else %}
+    <div class="type">{{ content.field_article_published_date }}</div>
+  {% endif %}
+  <h1>{{ content.field_article_header }}</h1>
+</div>
+
+<!-- article-hero -->
+<div class="component hero {% if content.field_article_category|render|trim == "Event" %}event{% endif %}">
+	<div class="article-image">
+		<!-- image width: 800px -->
+		<img src="{{ file_url(content.field_article_image['#items'].entity.uri.value) }} " alt="">
+	</div>		
+		{% if content.field_article_category|render|trim == "Event" %}		
+		  <div class="event-content">
+			{% for content in content.field_article_event_detail %}
+			  {% for items in content %}				
+			    {% if items.field_article_event_title.value is not empty %}
+				  <div class="date">
+				    <span>{{ items.field_article_event_start_date.value | date('M') }}</span>
+				    <span class="large">{{ items.field_article_event_start_date.value | date('d') }}</span>
+				    <span class="line">-</span>
+					  {% if items.field_article_event_start_date.value | date('M') == items.field_article_event_end_date.value | date('M') %}	
+					    <span class="large">{{ items.field_article_event_end_date.value | date('d') }}</span>
+					  {% else %}
+					    <span>{{ items.field_article_event_end_date.value | date('M') }}</span>
+					    <span class="large">{{ items.field_article_event_end_date.value | date('d') }}</span>
+					  {% endif %}	
+				  </div>
+				  <div class="description">
+					<h5>{{ paragraph.field_article_header.value }}</h5>
+					<div class="event-details">
+					  <div class="time"><div class="icn_clock" data-embed-icon="icn_clock"></div>{{ items.field_article_event_time.value }}</div>
+				      <div class="location"><div class="icn_location" data-embed-icon="icn_location"></div>{{ items.field_article_event_location.value }}</div>
+			        </div>
+				  </div>
+				  <div class="buttons">
+				   <a href="{{ items.field_article_event_calendar_add.0.url }}" data-trackevent="" class="button button-cta medium outline-gray" target="_self"><div class="icn_plus" data-embed-icon="icn_plus"></div><span class="icon-button" title="Add to calendar">Add to calendar</span></a>
+				   <a href="{{ items.field_article_event_register_now.0.url }}" data-trackevent="" class="button button-cta medium" target="_self"><div class="icn_linkout" data-embed-icon="icn_linkout"></div><span class="icon-button" title="Register now">Register now</span></a>
+				  </div>					
+				{% endif %}	
+			{% endfor %}				
+		  {% endfor %}
+		  </div>
+		{% endif %}			
+	<div class="category"><div class="icn_train" data-embed-icon="icn_train"></div><span>{{ content.field_article_category }}</span></div>		
+	<div class="share-buttons">
+		<span>Share this item</span>
+                <script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property=58e26717bd89c500112d10cd&product=inline-share-buttons"></script>
+		<div class="sharethis-inline-share-buttons"></div>
+                <!--<ul class="social-list">
+			<li class="icon-item">
+				<a href="#" target="_blank" class="nav-icon icon icn_social_facebook" title="Share on Facebook" data-embed-icon="icn_social_facebook"></a>
+			</li>
+			<li class="icon-item">
+				<a href="#" target="_blank" class="nav-icon icon icn_social_twitter" title="Share on Twitter" data-embed-icon="icn_social_twitter"></a>
+			</li>
+			<li class="icon-item">
+				<a href="#" target="_blank" class="nav-icon icon icn_social_linkedin" title="Share on Linkedin" data-embed-icon="icn_social_linkedin"></a>
+			</li>
+			<li class="icon-item">
+				<a href="#" target="_blank" class="nav-icon icon icn_social_google" title="Share on Google+" data-embed-icon="icn_social_google"></a>
+			</li>
+		</ul>-->
+	</div>
+
+	<div class="contact-buttons">
+           
+		<span>Contact us</span>
+		<ul class="contact-list">
+			<li class="icon-item">
+				<a href="mailto:{{- content.field_contact_email -}}" target="_blank" class="nav-icon icon envelop icn_envelop_gray" title="Mail" data-embed-icon="icn_envelop_gray"></a>
+			</li>
+			<li class="icon-item">
+				<a href="tel:{{- content.field_contact_phone -}}" target="_blank" class="nav-icon icon phone icn_phone_gray" title="Phone" data-embed-icon="icn_phone_gray"></a>
+			</li>
+		</ul>
+	</div>
+</div>
+
+<!-- article-content -->
+<div class="article-content">
+  {{ content.field_article_body }}
+</div>
+
+<!-- article - browse -->
+<div class="component browse-buttons">
+  {% if prev_title is not empty %}
+	<div class="browse-left">
+		<button class="button button-carousel button-carousel-previous">
+			<span class="button">&lt;</span>
+		</button>
+		<div class="article">
+			<div class="pre-title">Previous news article</div>
+			<h3>{{ prev_title }}</h3>
+			<div class="date">{{ prev_publish_date }}</div>
+		</div>
+		<div class="article-preview">
+			<div class="article-content">
+				<div class="pre-title">Previous news article</div>
+				<h3>{{ prev_title }}</h3>
+				<div class="date">{{ prev_publish_date }}</div>
+				<div class="read-more">
+					<a href="{{ prev_link }}" data-trackevent="" class="button button-cta medium" target="_self"><span title="Read now">Read now</span></a>
+					<span class="reading-time">reading time<br/>e.g. 2min</span>
+				</div>
+			</div>
+			<div class="teaser-img">
+				<!-- image sizes: 200x200 -->
+				<div class="background-image"
+				     style="background-image: url('{{ file_url(prev_image_uri) }}');"
+				></div>
+			</div>
+		</div>
+	</div>
+  {% endif %}
+  {% if next_title is not empty %}
+	<div class="browse-right">
+		<button class="button button-carousel button-carousel-next">
+			<span class="button">&gt;</span>
+		</button>
+		<div class="article">
+			<div class="pre-title">Next event</div>
+			<h3>{{ next_title }}</h3>
+			<div class="date">{{ next_publish_date }}</div>
+		</div>
+		<div class="article-preview">
+			<div class="article-content">
+				<div class="pre-title">Previous news article</div>
+				<h3>{{ next_title }}</h3>
+				<div class="date">{{next_publish_date}}</div>
+				<div class="read-more">				
+					<a href="{{ next_link }}" data-trackevent="" class="button button-cta medium" target="_self"><span title="Read now">Read now</span></a>
+					<span class="reading-time">reading time<br/>e.g. 2min</span>
+				</div>
+			</div>
+			<div class="teaser-img">
+				<!-- image sizes: 200x200 -->
+				<div class="background-image"
+				     style="background-image: url('{{ file_url(next_image_uri) }}');"
+				></div>
+			</div>
+		</div>
+	</div>
+	{% endif %}	
+</div>
+<!-- Tags -->
+<div class="component tags">
+   <strong>Tags:</strong>
+   {% for key, item in content.field_article_tags %}     
+     {% if content.field_article_tags[key]['#title'] is not empty %}
+	   <div class="tag">{{ content.field_article_tags[key]['#items'] }}</div>	   
+     {% endif %}
+   {% endfor %}	
+</div>
+
+<!-- back to newsroom -->
+<div class="component back-button">
+	<a href="{{ (base_path ~ 'newsroom') }}" data-trackevent="" class="button button-cta xlarge outline-primary" target="_self"><span title="Back to Newsroom">Back to Newsroom</span></a>
+</div>
+<!-- Related Items -->
+<div class="intro">
+  <div class="type">Related items</div>
+  <h2>You may also like these items</h2>
+</div>
+
+<div class="component related">
+  <ul class="article-blocks">
+	{{ related_items }}
+  </ul>
+</div>
